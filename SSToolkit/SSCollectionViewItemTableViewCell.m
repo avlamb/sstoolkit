@@ -17,6 +17,7 @@
 
 @synthesize itemSize = _itemSize;
 @synthesize itemSpacing = _itemSpacing;
+@synthesize edgeless = _edgeless;
 
 @synthesize items = _items;
 
@@ -49,13 +50,13 @@
 #pragma mark - UIView
 
 - (void)layoutSubviews {
-	__block CGFloat x = _itemSpacing;
+	__block CGFloat x = (_edgeless) ? 0 : _itemSpacing;
 	
 	[_items enumerateObjectsUsingBlock:^(id object, NSUInteger index, BOOL *stop) {
 		SSCollectionViewItem *item = (SSCollectionViewItem *)object;
 		
 		item.frame = CGRectMake(x, 0.0f, _itemSize.width, _itemSize.height);
-		x += _itemSize.width + _itemSpacing;
+		x += _itemSize.width + ((_edgeless) ? _itemSpacing * 2.0 : _itemSpacing);
 	}];
 }
 

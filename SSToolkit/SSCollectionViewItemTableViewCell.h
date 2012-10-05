@@ -12,6 +12,7 @@
 
 @property (nonatomic, assign) CGSize itemSize;
 @property (nonatomic, assign) CGFloat itemSpacing;
+@property (nonatomic, assign) BOOL edgeless; 
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, unsafe_unretained) SSCollectionView *collectionView;
 

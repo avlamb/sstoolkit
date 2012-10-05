@@ -166,6 +166,13 @@ typedef enum {
 @property (nonatomic, strong) UIColor *rowBackgroundColor;
 
 
+/**
+ Layout the rows at fullwidth, with no margins at either edge
+ 
+ */
+@property (nonatomic, assign) BOOL edgeless;
+
+
 ///-----------------------------------
 /// @name Accessing Items and Sections
 ///-----------------------------------

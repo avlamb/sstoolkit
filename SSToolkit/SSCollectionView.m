@@ -69,6 +69,7 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 @synthesize allowsSelection = _allowsSelection;
 @synthesize extremitiesStyle = _extremitiesStyle;
 @synthesize rowBackgroundColor = _rowBackgroundColor;
+@synthesize edgeless = _edgeless;
 
 #pragma mark - NSObject
 
@@ -118,7 +119,7 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 	[super setFrame:frame];
 	
 	if (shouldReload) {
-		[self reloadData];
+		//[self reloadData];
 	}
 }
 
@@ -518,13 +519,14 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 	self.backgroundColor = [UIColor whiteColor];
 	self.opaque = YES;
 	
-	_minimumColumnSpacing = 10.0f;
+	_minimumColumnSpacing = 0.0f;
 	_rowSpacing = 20.0f;
 	_allowsSelection = YES;
 	_visibleItems = [[NSMutableSet alloc] init];
 	_reuseableItems = [[NSMutableDictionary alloc] init];
 	_sectionCache = [[NSMutableDictionary alloc] init];
-	
+	_edgeless = NO;
+    
 	_tableView = [[SSCollectionViewTableView alloc] initWithFrame:self.bounds];
 	_tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -584,7 +586,7 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 	}
 	
 	CGSize itemSize = [self _itemSizeForSection:section];
-	NSUInteger itemsPerRow = (NSUInteger)floorf(self.frame.size.width / (itemSize.width + _minimumColumnSpacing));
+	NSUInteger itemsPerRow = (NSUInteger)floorf(self.frame.size.width / (itemSize.width + ((_edgeless) ? 0.0 : _minimumColumnSpacing)));
 	[self _setSectionInfoItem:[NSNumber numberWithUnsignedInteger:itemsPerRow] forKey:kSSCollectionViewSectionNumberOfItemsPerRowsKey section:section];
 	return itemsPerRow;
 }
@@ -814,6 +816,7 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 	if (!cell) {
 		cell = [[SSCollectionViewItemTableViewCell alloc] initWithReuseIdentifier:itemCellIdentifier];
 		cell.collectionView = self;
+        cell.edgeless = self.edgeless;
 	}
 	
 	cell.itemSize = [self _itemSizeForSection:rowIndexPath.section];
