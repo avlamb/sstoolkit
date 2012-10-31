@@ -627,7 +627,8 @@ static NSString *kSSCollectionViewSectionItemSizeKey = @"SSCollectionViewSection
 - (CGFloat)_itemSpacingForSection:(NSUInteger)section {
 	CGSize itemSize = [self _itemSizeForSection:section];
 	NSUInteger itemsPerRow = [self _numberOfItemsPerRowForSection:section];
-	return roundf((self.frame.size.width - (itemSize.width * (CGFloat)itemsPerRow)) / (itemsPerRow + 1));
+  NSInteger perRow = (itemsPerRow > 2) ? itemsPerRow + 1 : itemsPerRow;
+	return roundf((self.frame.size.width - (itemSize.width * (CGFloat)itemsPerRow)) / perRow);
 }
 
 
